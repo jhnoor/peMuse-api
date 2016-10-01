@@ -1,14 +1,31 @@
-from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from peMuse.api.models import Player, Powerup, PlayerPowerups, Trophy
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class PowerupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'groups')
+        model = Powerup
+        fields = ('name', 'description')
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class TrophySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Group
-        fields = ('url', 'name')
+        model = Trophy
+        fields = ('name', 'description')
+
+
+class PlayerSerializer(serializers.ModelSerializer):
+    trophies = TrophySerializer(many=True)
+    #powerups = PlayerPowerupsSerializer(many=True, null=True, blank=True)
+
+    class Meta:
+        model = Player
+
+
+class PlayerPowerupsSerializer(serializers.ModelSerializer):
+    player = PlayerSerializer()
+    powerups = PowerupSerializer(many=True)
+
+    class Meta:
+        model = PlayerPowerups
+        fields = ('player', 'powerup', 'quantity')

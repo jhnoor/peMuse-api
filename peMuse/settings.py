@@ -25,7 +25,7 @@ SECRET_KEY = '06sjh)3%^zazv3(=1j*992tu27=-!3tqw3owcto46qvhf3=w5%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fgbeta.samfundet.*', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third party
     'rest_framework',
+
+    # Project apps
+    'peMuse.api',
 ]
 
 REST_FRAMEWORK = {
@@ -111,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Oslo'
 
 USE_I18N = True
 

@@ -1,19 +1,22 @@
-from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from peMuse.api.serializers import UserSerializer, GroupSerializer
+from serializers import PlayerSerializer
+from peMuse.api.models import Player, PlayerPowerups, Powerup, Trophy
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class PlayerViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
 
 
+
+"""
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+
+    # API endpoint that allows groups to be viewed or edited.
+
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+"""
