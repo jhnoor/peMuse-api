@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from serializers import PlayerSerializer
-from peMuse.api.models import Player, PlayerPowerups, Powerup, Trophy
+from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer
+from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy
 
 
 class PlayerViewSet(viewsets.ModelViewSet):
@@ -11,12 +11,12 @@ class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
 
 
+class TrophyViewSet(viewsets.ModelViewSet):
+    queryset = Trophy.objects.all()
+    serializer_class = TrophySerializer
 
-"""
-class GroupViewSet(viewsets.ModelViewSet):
 
-    # API endpoint that allows groups to be viewed or edited.
+class PowerupViewSet(viewsets.ModelViewSet):
+    queryset = Powerup.objects.all()
+    serializer_class = PowerupSerializer
 
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-"""
