@@ -3,11 +3,8 @@ from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer
 from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy
 
 
-class PlayerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Player.objects.all()
+class PlayersViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.all().order_by("created_at")
     serializer_class = PlayerSerializer
 
 
@@ -17,6 +14,5 @@ class TrophyViewSet(viewsets.ModelViewSet):
 
 
 class PowerupViewSet(viewsets.ModelViewSet):
-    queryset = Powerup.objects.all()
+    queryset = Powerup.objects.all().order_by("name")
     serializer_class = PowerupSerializer
-

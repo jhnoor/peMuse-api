@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# A powerup
 class Powerup(models.Model):
     name = models.CharField(max_length=32)
     description = models.CharField(max_length=256)
@@ -18,13 +17,15 @@ class Trophy(models.Model):
     def __unicode__(self):
         return self.name
 
+
 # Intermediary class counting powerups since that is the only way to have multiples (Quantity)
 class PlayerPowerup(models.Model):
     player = models.ForeignKey('Player')  # TODO on_delete=models.CASCADE
     powerup = models.ForeignKey(Powerup)
+    quantity = models.PositiveSmallIntegerField(default=0)
 
     def __unicode__(self):
-        return self.player.uid + " - " + self.powerup.name + ', quantity: ' + str(self.quantity)
+        return self.player.uid + " - " + self.powerup.name
 
 
 # Create your models here.
@@ -42,8 +43,7 @@ class Player(models.Model):
         return self.created_at.strftime("%Y-%m-%d %H:%M:%S") + " - " + self.uid
 
     def get_trophies(self):
-        return self.trophies
+        return self.trophies.order_by("name")
 
     def get_powerups(self):
-        return self.powerups
-
+        return self.powerups.order_by("name")
