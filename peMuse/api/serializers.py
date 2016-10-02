@@ -13,6 +13,10 @@ class TrophySerializer(serializers.ModelSerializer):
         model = Trophy
         fields = ('url', 'name', 'description')
 
+class PlayerPowerupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerPowerup
+
 
 class PlayerSerializer(serializers.HyperlinkedModelSerializer):
     trophies = TrophySerializer(source='get_trophies', many=True, read_only=True)

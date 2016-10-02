@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer
+from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer, PlayerPowerupSerializer
 from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy
 
 
@@ -16,3 +16,8 @@ class TrophyViewSet(viewsets.ModelViewSet):
 class PowerupViewSet(viewsets.ModelViewSet):
     queryset = Powerup.objects.all().order_by("name")
     serializer_class = PowerupSerializer
+
+
+class PlayerPowerupViewSet(viewsets.ModelViewSet):
+    queryset = PlayerPowerup.objects.all()
+    serializer_class = PlayerPowerupSerializer

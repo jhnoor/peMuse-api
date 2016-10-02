@@ -8,6 +8,7 @@ router.register(r'players', views.PlayersViewSet)
 
 router.register(r'trophies', views.TrophyViewSet)
 router.register(r'powerups', views.PowerupViewSet)
+router.register(r'player-powerups', views.PlayerPowerupViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
