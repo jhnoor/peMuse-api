@@ -1,0 +1,114 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$j6JmIVyeIPZt$KoZmwLLYiBr6UGjEII9EX4wPVhXE3eJeSitDVd9Ffjs=",
+      "last_login": "2016-10-03T17:33:57.880Z",
+      "is_superuser": true,
+      "username": "jhnoor",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2016-10-03T14:56:21.503Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "api.trophy",
+    "pk": 1,
+    "fields": {
+      "name": "Genius",
+      "description": "Answer 10 questions correctly in a row"
+    }
+  },
+  {
+    "model": "api.trophy",
+    "pk": 2,
+    "fields": {
+      "name": "Prodigy",
+      "description": "Answer 5 questions correctly in a row"
+    }
+  },
+  {
+    "model": "api.trophy",
+    "pk": 3,
+    "fields": {
+      "name": "Gemini",
+      "description": "Play with the same player more than once"
+    }
+  },
+  {
+    "model": "api.powerup",
+    "pk": 1,
+    "fields": {
+      "name": "Ice age",
+      "description": "Freezes time for 1 minute"
+    }
+  },
+  {
+    "model": "api.powerup",
+    "pk": 2,
+    "fields": {
+      "name": "Fire",
+      "description": "Fire in the disco!"
+    }
+  },
+  {
+    "model": "api.powerup",
+    "pk": 3,
+    "fields": {
+      "name": "Double XP",
+      "description": "Get double xp for the next three questions"
+    }
+  },
+  {
+    "model": "api.powerup",
+    "pk": 4,
+    "fields": {
+      "name": "Hint",
+      "description": "Receive a hint for this question"
+    }
+  },
+  {
+    "model": "api.terminal",
+    "pk": 1,
+    "fields": {
+      "name": "One"
+    }
+  },
+  {
+    "model": "api.terminal",
+    "pk": 2,
+    "fields": {
+      "name": "Two"
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 1,
+    "fields": {
+      "uid": "FF",
+      "active_player": null
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 2,
+    "fields": {
+      "uid": "CC",
+      "active_player": null
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 3,
+    "fields": {
+      "uid": "AA",
+      "active_player": null
+    }
+  }
+]

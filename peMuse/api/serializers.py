@@ -37,7 +37,7 @@ class PlayerTrophySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayerTrophy
-        fields = ('name', 'description', 'earned', 'url')
+        fields = ('name', 'description', 'earned', 'player', 'url')
 
 class PlayerSerializer(serializers.ModelSerializer):
     trophies = PlayerTrophySerializer(source='playertrophy_set', many=True, read_only=True)
@@ -45,8 +45,4 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ('uid', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')
-        lookup_field = 'uid'
-        extra_kwargs = {
-            'url': {'lookup_field': 'uid'}
-        }
+        fields = ('xp', 'level', 'url', 'trophies', 'powerups', 'played_with')

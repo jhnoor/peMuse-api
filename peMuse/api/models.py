@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.db.models.signals import post_save
+from django.core.exceptions import ValidationError
 
 
 class Trophy(models.Model):
@@ -26,7 +27,7 @@ class PlayerTrophy(models.Model):
     earned = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.player.uid + " - " + self.trophy.name
+        return str(self.player) + " - " + str(self.trophy)
 
 
 # Many-to-many intermediate table
@@ -36,39 +37,90 @@ class PlayerPowerup(models.Model):
     quantity = models.PositiveSmallIntegerField(default=0)
 
     def __unicode__(self):
-        return self.player.uid + " - " + self.powerup.name
+        return str(self.player) + " - " + str(self.powerup)
 
 
 class Player(models.Model):
-    uid = models.CharField(max_length=32, unique=True)  # TODO set this to 8
     xp = models.PositiveIntegerField(default=0)
     level = models.PositiveSmallIntegerField(default=1)  # TODO config class defining xp leveling limits
     played_with = models.ManyToManyField("self", blank=True)
+    active = models.BooleanField(default=True)  # Initial new players are active unless otherwise specified
+
+    # Analytical stats
+    average_time_to_answer_seconds = models.FloatField(default=0, blank=True)
+    total_playtime_seconds = models.PositiveSmallIntegerField(default=0, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.created_at.strftime("%Y-%m-%d %H:%M:%S") + " - " + self.uid
+        return "player_" + str(self.pk)
 
-    def init_player_powerups(self):
+    def update_player_powerups(self):
         all_powerups = Powerup.objects.all()
         for powerup in all_powerups:
-            player_powerup = PlayerPowerup(player=self, powerup=powerup)  # All new players start with zero powerups
-            player_powerup.save()
+            PlayerPowerup.objects.get_or_create(player=self, powerup=powerup)
+            # All new players start with zero powerups
 
-    def init_player_trophies(self):
+    def update_player_trophies(self):
         all_trophies = Trophy.objects.all()
         for trophy in all_trophies:
-            player_trophy = PlayerTrophy(player=self, trophy=trophy)
-            player_trophy.save()
+            PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
+            # All new players start with zero trophies
 
-    # TODO add_xp(), random_powerup(), earn_trophy()
+    def add_xp(self):
+        self.xp += 200
+        self.save()
+
+        # TODO add_xp(), random_powerup(), earn_trophy()
 
 
 def player_saved(sender, instance, *args, **kwargs):
-    instance.init_player_powerups()
-    instance.init_player_trophies()
+    instance.update_player_powerups()
+    instance.update_player_trophies()
 
 
 # After a new player is registered, initial config must be completed
 post_save.connect(player_saved, sender=Player)
+
+
+class Terminal(models.Model):
+    name = models.CharField(max_length=32, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Session(models.Model):
+    terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE, default=None)
+    player_1 = models.ForeignKey(Player, related_name="player_1", on_delete=models.CASCADE)
+    player_2 = models.ForeignKey(Player, related_name="player_2", on_delete=models.CASCADE)
+    winner = models.ForeignKey(Player, related_name="player_winner", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('terminal', 'player_1'), ('terminal', 'player_2'))
+
+    def __unicode__(self):
+        return "Terminal " + str(self.terminal) + " | " + str(self.player_1) + " vs " + str(self.player_2) + \
+               ", winner: " + str(self.winner)
+
+    def save(self, *args, **kwargs):  # TODO maybe this should be in a validator
+        if self.player_1 == self.player_2:
+            raise ValidationError("You cannot play with yourself")
+        if self.winner not in [self.player_1, self.player_2]:
+            raise ValidationError("Winner must be one of player_1 or player_2")
+        all_sessions = Session.objects.all()
+        for session in all_sessions:
+            if session.terminal == self.terminal:
+                if set([session.player_1, session.player_2]) & set([self.player_1, self.player_2]):
+                    raise ValidationError("player_1 or player_2 has already completed this terminal")
+
+        super(Session, self).save(*args, **kwargs)
+
+
+class Badge(models.Model):
+    uid = models.CharField(max_length=16, unique=True)
+    active_player = models.ForeignKey(Player, null=True, blank=True)  # If this is null badge is available
+
+    def __unicode__(self):
+        return self.uid
