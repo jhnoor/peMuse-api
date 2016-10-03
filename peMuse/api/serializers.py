@@ -1,20 +1,10 @@
 from rest_framework import serializers
-from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy
+from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrophy
 
 
 class PowerupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Powerup
-        fields = ('name', 'description', 'url')
-        lookup_field = 'name'
-        extra_kwargs = {
-            'url': {'lookup_field': 'name'}
-        }
-
-
-class TrophySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trophy
         fields = ('name', 'description', 'url')
         lookup_field = 'name'
         extra_kwargs = {
@@ -31,8 +21,26 @@ class PlayerPowerupSerializer(serializers.ModelSerializer):
         fields = ('name', 'description', 'quantity', 'url')
 
 
+class TrophySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trophy
+        fields = ('name', 'description', 'url')
+        lookup_field = 'name'
+        extra_kwargs = {
+            'url': {'lookup_field': 'name'}
+        }
+
+
+class PlayerTrophySerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='trophy.name')  # Accessing the model
+    description = serializers.ReadOnlyField(source='trophy.description')
+
+    class Meta:
+        model = PlayerTrophy
+        fields = ('name', 'description', 'earned', 'url')
+
 class PlayerSerializer(serializers.ModelSerializer):
-    trophies = TrophySerializer(source='get_trophies', many=True, read_only=True)
+    trophies = PlayerTrophySerializer(source='playertrophy_set', many=True, read_only=True)
     powerups = PlayerPowerupSerializer(source='playerpowerup_set', many=True, read_only=True)
 
     class Meta:
