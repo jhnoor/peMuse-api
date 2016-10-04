@@ -12,11 +12,19 @@ router.register(r'player-powerups', views.PlayerPowerupViewSet)
 router.register(r'player-trophies', views.PlayerTrophyViewSet)
 
 player_add_xp = views.PlayerViewSet.as_view({
-    'get': 'add_xp' #TODO make this a post instead of get to be more RESTful..
+    'put': 'add_xp'
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 player_set_xp = views.PlayerViewSet.as_view({
-    'get': 'set_xp' #TODO make this a post instead of get to be more RESTful..
+    'put': 'set_xp'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+player_set_powerup_quantity = views.PlayerViewSet.as_view({
+    'put': 'set_powerup_quantity'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+player_earn_trophy = views.PlayerViewSet.as_view({
+    'put': 'earn_trophy'
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 # Wire up our API using automatic URL routing.
@@ -25,6 +33,9 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^players/(?P<pk>\d+)/add_xp/(?P<xp>\d+)/$', player_add_xp, name='player-add-xp'),
     url(r'^players/(?P<pk>\d+)/set_xp/(?P<xp>\d+)/$', player_set_xp, name='player-set-xp'),
+    url(r'^players/(?P<pk>\d+)/set_powerup_quantity/(?P<powerup_pk>\d+)/(?P<quantity>\d+)/$', player_set_powerup_quantity,
+        name='player-set-powerup-quantity'),
+    url(r'^players/(?P<pk>\d+)/earn_trophy/(?P<trophy_pk>\d+)/$', player_earn_trophy, name='player-earn-trophy'),
 
     # Additionally, we include login URLs for the browsable API and admin
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

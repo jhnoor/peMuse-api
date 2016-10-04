@@ -75,30 +75,26 @@ class Player(models.Model):
         self.check_level()
         self.save()
 
-    def set_xp(self, **kwargs):
-        self.xp = int(kwargs['xp'])
+    def set_xp(self, xp):
+        self.xp = xp
         self.check_level()
         self.save()
 
     def check_level(self):  # Checks if current xp warrants a levelup
         self.level = config.get_level(self.xp)
 
-
-    def increment_random_powerup(self):
-        random_powerup = random.choice(Powerup.objects.all())
-        player_powerup = PlayerPowerup.objects.get_or_create(player=self, powerup=random_powerup)
-        player_powerup.quantity += 1
-        player_powerup.save()
-
-    def decrement_powerup(self, powerup_pk):
+    def set_powerup_quantity(self, powerup_pk, quantity):
         powerup = Powerup.objects.get(pk=powerup_pk)
-        player_powerup = PlayerPowerup.objects.get(player=self, powerup=powerup)
-        player_powerup -= 1
+        player_powerup,created = PlayerPowerup.objects.get_or_create(player=self, powerup=powerup)
+        player_powerup.quantity = quantity
         player_powerup.save()
 
     # TODO earn trophy equal to given pk
     def earn_trophy(self, trophy_pk):
-        pass
+        trophy = Trophy.objects.get(pk=trophy_pk)
+        player_trophy,created = PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
+        player_trophy.earned = True
+        player_trophy.save()
 
 
 def player_saved(sender, instance, *args, **kwargs):
