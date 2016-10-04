@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+import config, random
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
@@ -68,11 +70,35 @@ class Player(models.Model):
             PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
             # All new players start with zero trophies
 
-    def add_xp(self):
-        self.xp += 200
+    def add_xp(self, **kwargs):
+        self.xp += int(kwargs['xp']) if 'xp' in kwargs else int(config.DEFAULT_XP)
+        self.check_level()
         self.save()
 
-        # TODO add_xp(), random_powerup(), earn_trophy()
+    def set_xp(self, **kwargs):
+        self.xp = int(kwargs['xp'])
+        self.check_level()
+        self.save()
+
+    def check_level(self):  # Checks if current xp warrants a levelup
+        self.level = config.get_level(self.xp)
+
+
+    def increment_random_powerup(self):
+        random_powerup = random.choice(Powerup.objects.all())
+        player_powerup = PlayerPowerup.objects.get_or_create(player=self, powerup=random_powerup)
+        player_powerup.quantity += 1
+        player_powerup.save()
+
+    def decrement_powerup(self, powerup_pk):
+        powerup = Powerup.objects.get(pk=powerup_pk)
+        player_powerup = PlayerPowerup.objects.get(player=self, powerup=powerup)
+        player_powerup -= 1
+        player_powerup.save()
+
+    # TODO earn trophy equal to given pk
+    def earn_trophy(self, trophy_pk):
+        pass
 
 
 def player_saved(sender, instance, *args, **kwargs):

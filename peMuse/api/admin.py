@@ -11,8 +11,8 @@ admin.site.unregister(Group)
 admin.site.register(Player)
 admin.site.register(Powerup)
 admin.site.register(Trophy)
-#admin.site.register(PlayerPowerup)
-#admin.site.register(PlayerTrophy)
+# admin.site.register(PlayerPowerup)
+# admin.site.register(PlayerTrophy)
 
 # Terminal
 admin.site.register(Terminal)

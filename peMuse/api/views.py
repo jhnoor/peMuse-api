@@ -11,10 +11,15 @@ class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
 
     @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
-    def add_xp(self, request, *args, **kwargs):
+    def add_xp(self, *args, **kwargs):
         player = self.get_object()
-        player.add_xp()
-        return Response({"success": "player_"+str(player.pk)+" got xp!"}, status=status.HTTP_200_OK)
+        player.add_xp(**kwargs)
+        return Response({"add_xp success": "player_"+str(player.pk)+" got xp!"}, status=status.HTTP_200_OK)
+
+    def set_xp(self, *args, **kwargs):
+        player = self.get_object()
+        player.set_xp(**kwargs)
+        return Response({"set_xp success"}, status=status.HTTP_200_OK)
 
 class TrophyViewSet(viewsets.ModelViewSet):
     """
