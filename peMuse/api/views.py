@@ -12,7 +12,7 @@ class BadgeViewSet(viewsets.ModelViewSet):
     queryset = Badge.objects.all().order_by("-updated_at")
     serializer_class = BadgeSerializer
 
-    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer], methods=['post'])
     def new_active_player(self, *args, **kwargs):
         print "I GET HERE"
         if 'pk' not in kwargs:
