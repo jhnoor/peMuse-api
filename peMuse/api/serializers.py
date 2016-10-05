@@ -5,7 +5,7 @@ from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrop
 class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
-
+        fields = ('url', 'id', 'uid', 'updated_at', 'active_player')
 
 class PowerupSerializer(serializers.ModelSerializer):
     class Meta:

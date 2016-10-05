@@ -12,6 +12,19 @@ class BadgeViewSet(viewsets.ModelViewSet):
     queryset = Badge.objects.all().order_by("-updated_at")
     serializer_class = BadgeSerializer
 
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def new_active_player(self, *args, **kwargs):
+        print "I GET HERE"
+        if 'pk' not in kwargs:
+            raise TypeError("new_active_player requires pk parameter e.g. 'players/<pk>'")
+        new_player = Player.objects.create()
+        badge = Badge.objects.get(pk=kwargs['pk'])
+        if badge.active_player is not None:
+            return Response({"badge unavailable, assigned to " + str(badge.active_player)},
+                            status=status.HTTP_412_PRECONDITION_FAILED)
+        badge.active_player = new_player
+        badge.save()
+        return Response({new_player.pk}, status=status.HTTP_200_OK)
 
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by("created_at")
@@ -45,23 +58,6 @@ class PlayerViewSet(viewsets.ModelViewSet):
         player = self.get_object()
         player.earn_trophy(kwargs['trophy_pk'])
         return Response({"earn_trophy success"}, status=status.HTTP_200_OK)
-
-    def new_active_player(self, *args, **kwargs):
-        if 'pk' not in kwargs:
-            raise TypeError("new_active_player requires pk parameter e.g. 'players/<pk>'")
-        new_player = Player.objects.create()
-        badge = Badge.objects.get(pk=kwargs['pk'])
-        if badge.active_player is not None:
-            return Response({"badge unavailable, assigned to "+str(badge.active_player)}, status=status.HTTP_412_PRECONDITION_FAILED)
-        badge.active_player = new_player
-        badge.save()
-        return Response({"new_active_player success"}, status=status.HTTP_200_OK)
-
-    def player_detail(self, request, *args, **kwargs):
-        if 'pk' not in kwargs:
-            raise TypeError("get_player requires pk parameter e.g. 'players/<pk>'")
-        serializer = PlayerSerializer(self.get_object(), context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class TrophyViewSet(viewsets.ModelViewSet):
     """

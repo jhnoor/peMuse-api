@@ -142,7 +142,7 @@ class Session(models.Model):
 
 
 class Badge(models.Model):
-    uid = models.CharField(max_length=16, unique=True)
+    uid = models.CharField(max_length=8, unique=True)
     active_player = models.ForeignKey(Player, null=True, blank=True)  # If this is null badge is available
 
     updated_at = models.DateTimeField(auto_now=True)
