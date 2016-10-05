@@ -2,11 +2,16 @@ from rest_framework import viewsets, renderers, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer, PlayerPowerupSerializer, \
-    PlayerTrophySerializer
-from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy
+    PlayerTrophySerializer, BadgeSerializer
+from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy, Badge
 
 
 ## Viewsets ##
+
+class BadgeViewSet(viewsets.ModelViewSet):
+    queryset = Badge.objects.all().order_by("-updated_at")
+    serializer_class = BadgeSerializer
+
 
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by("created_at")
@@ -20,26 +25,43 @@ class PlayerViewSet(viewsets.ModelViewSet):
 
     def set_xp(self, *args, **kwargs):
         if 'xp' not in kwargs:
-            raise TypeError("set_xp requires xp parameter e.g. '...<pk>/<xp>'")
+            raise TypeError("set_xp requires xp parameter e.g. 'players/<pk>/<xp>'")
         player = self.get_object()
         player.set_xp(kwargs['xp'])
         return Response({"set_xp success"}, status=status.HTTP_200_OK)
 
     def set_powerup_quantity(self, *args, **kwargs):
         if 'powerup_pk' not in kwargs:
-            raise TypeError("set_powerup_quantity requires powerup_pk parameter e.g. '...<pk>/<powerup_pk>'")
+            raise TypeError("set_powerup_quantity requires powerup_pk parameter e.g. 'players/<pk>/<powerup_pk>'")
         if 'quantity' not in kwargs:
-            raise TypeError("quantity parameter required e.g. '...<pk>/<powerup_pk>/<quantity>'")
+            raise TypeError("quantity parameter required e.g. 'players/<pk>/<powerup_pk>/<quantity>'")
         player = self.get_object()
         player.set_powerup_quantity(kwargs['powerup_pk'], kwargs['quantity'])
         return Response({"set_powerup_quantity success"}, status=status.HTTP_200_OK)
 
     def earn_trophy(self, *args, **kwargs):
         if 'trophy_pk' not in kwargs:
-            raise TypeError("earn_trophy requires trophy_pk parameter e.g. '...<pk>/<trophy_pk>'")
+            raise TypeError("earn_trophy requires trophy_pk parameter e.g. 'players/<pk>/<trophy_pk>'")
         player = self.get_object()
         player.earn_trophy(kwargs['trophy_pk'])
         return Response({"earn_trophy success"}, status=status.HTTP_200_OK)
+
+    def new_active_player(self, *args, **kwargs):
+        if 'pk' not in kwargs:
+            raise TypeError("new_active_player requires pk parameter e.g. 'players/<pk>'")
+        new_player = Player.objects.create()
+        badge = Badge.objects.get(pk=kwargs['pk'])
+        if badge.active_player is not None:
+            return Response({"badge unavailable, assigned to "+str(badge.active_player)}, status=status.HTTP_412_PRECONDITION_FAILED)
+        badge.active_player = new_player
+        badge.save()
+        return Response({"new_active_player success"}, status=status.HTTP_200_OK)
+
+    def player_detail(self, request, *args, **kwargs):
+        if 'pk' not in kwargs:
+            raise TypeError("get_player requires pk parameter e.g. 'players/<pk>'")
+        serializer = PlayerSerializer(self.get_object(), context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class TrophyViewSet(viewsets.ModelViewSet):
     """

@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrophy
+from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrophy, Badge
+
+
+class BadgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Badge
 
 
 class PowerupSerializer(serializers.ModelSerializer):

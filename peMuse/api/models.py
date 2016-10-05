@@ -97,6 +97,7 @@ class Player(models.Model):
         player_trophy.save()
 
 
+
 def player_saved(sender, instance, *args, **kwargs):
     instance.update_player_powerups()
     instance.update_player_trophies()
@@ -143,6 +144,8 @@ class Session(models.Model):
 class Badge(models.Model):
     uid = models.CharField(max_length=16, unique=True)
     active_player = models.ForeignKey(Player, null=True, blank=True)  # If this is null badge is available
+
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.uid
