@@ -14,7 +14,6 @@ class BadgeViewSet(viewsets.ModelViewSet):
 
     @detail_route(renderer_classes=[renderers.StaticHTMLRenderer], methods=['post'])
     def new_active_player(self, *args, **kwargs):
-        print "I GET HERE"
         if 'pk' not in kwargs:
             raise TypeError("new_active_player requires pk parameter e.g. 'players/<pk>'")
         new_player = Player.objects.create()

@@ -52,4 +52,4 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ('name','active', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')
+        fields = ('name','icon_filename','active', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')

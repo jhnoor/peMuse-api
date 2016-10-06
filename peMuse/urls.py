@@ -54,5 +54,4 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),  # And admin panel
 
-    # Finally to serve static files
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]

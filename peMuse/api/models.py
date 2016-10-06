@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-import config, random
+import os, config, random, glob
 
 from django.db import models
+from django.conf import settings
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 
@@ -44,6 +45,7 @@ class PlayerPowerup(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=32, null=True, blank=True)
+    icon_filename = models.CharField(max_length=16, null=True, blank=True)
     xp = models.PositiveIntegerField(default=0)
     level = models.PositiveSmallIntegerField(default=1)  # TODO config class defining xp leveling limits
     played_with = models.ManyToManyField("self", blank=True)
@@ -97,7 +99,7 @@ class Player(models.Model):
         player_trophy.earned = True
         player_trophy.save()
 
-    def assign_adjective_noun_name(self):
+    def assign_adjective_noun_name_and_icon(self):
         # Get list of currently active names (so no overlap)
         names_in_use = []
         print "names in use"
@@ -111,16 +113,21 @@ class Player(models.Model):
             adjective_noun = (random.choice(config.adjectives), random.choice(config.nouns))
             if adjective_noun in names_in_use:
                 continue
-            # All is good
-            self.name = adjective_noun[0]+"-"+adjective_noun[1]
+            self.name = adjective_noun[0] + "-" + adjective_noun[1]
+            # TODO instead of random file match with noun
+            print "icon_filename:"
+            self.icon_filename = "animal_icons/"+str(random.choice(os.listdir(str(settings.API_STATIC_ROOT) + "/animal_icons/")))
+            print self.icon_filename
+
             self.save()
+            return
 
 
 def player_saved(sender, created, instance, *args, **kwargs):
     instance.update_player_powerups()
     instance.update_player_trophies()
     if created:
-        instance.assign_adjective_noun_name()
+        instance.assign_adjective_noun_name_and_icon()
 
 
 # After a new player is registered, initial config must be completed
