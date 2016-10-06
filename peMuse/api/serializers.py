@@ -48,7 +48,8 @@ class PlayerTrophySerializer(serializers.ModelSerializer):
 class PlayerSerializer(serializers.ModelSerializer):
     trophies = PlayerTrophySerializer(source='playertrophy_set', many=True, read_only=True)
     powerups = PlayerPowerupSerializer(source='playerpowerup_set', many=True, read_only=True)
+    name = serializers.ReadOnlyField()
 
     class Meta:
         model = Player
-        fields = ('xp', 'level', 'url', 'trophies', 'powerups', 'played_with')
+        fields = ('name','active', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')

@@ -43,6 +43,7 @@ class PlayerPowerup(models.Model):
 
 
 class Player(models.Model):
+    name = models.CharField(max_length=32, null=True, blank=True)
     xp = models.PositiveIntegerField(default=0)
     level = models.PositiveSmallIntegerField(default=1)  # TODO config class defining xp leveling limits
     played_with = models.ManyToManyField("self", blank=True)
@@ -85,22 +86,41 @@ class Player(models.Model):
 
     def set_powerup_quantity(self, powerup_pk, quantity):
         powerup = Powerup.objects.get(pk=powerup_pk)
-        player_powerup,created = PlayerPowerup.objects.get_or_create(player=self, powerup=powerup)
+        player_powerup, created = PlayerPowerup.objects.get_or_create(player=self, powerup=powerup)
         player_powerup.quantity = quantity
         player_powerup.save()
 
     # TODO earn trophy equal to given pk
     def earn_trophy(self, trophy_pk):
         trophy = Trophy.objects.get(pk=trophy_pk)
-        player_trophy,created = PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
+        player_trophy, created = PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
         player_trophy.earned = True
         player_trophy.save()
 
+    def assign_adjective_noun_name(self):
+        # Get list of currently active names (so no overlap)
+        names_in_use = []
+        print "names in use"
+        print names_in_use
+        badges = Badge.objects.filter(active_player__isnull=False)
+        for badge in badges:
+            names_in_use.append(tuple(filter(None, str(badge.active_player.name).split("-"))))
+
+        # Generate random pair of adjective-noun, check if is already used, if so try again
+        for i in range(0, 10):
+            adjective_noun = (random.choice(config.adjectives), random.choice(config.nouns))
+            if adjective_noun in names_in_use:
+                continue
+            # All is good
+            self.name = adjective_noun[0]+"-"+adjective_noun[1]
+            self.save()
 
 
-def player_saved(sender, instance, *args, **kwargs):
+def player_saved(sender, created, instance, *args, **kwargs):
     instance.update_player_powerups()
     instance.update_player_trophies()
+    if created:
+        instance.assign_adjective_noun_name()
 
 
 # After a new player is registered, initial config must be completed

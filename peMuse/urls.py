@@ -3,6 +3,10 @@ from django.contrib import admin
 from rest_framework import routers, renderers
 from peMuse.api import views
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+
 router = routers.DefaultRouter()
 router.register(r'players', views.PlayerViewSet)
 router.register(r'trophies', views.TrophyViewSet)
@@ -49,4 +53,6 @@ urlpatterns = [
     # Additionally, we include login URLs for the browsable API and admin
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),  # And admin panel
-]
+
+    # Finally to serve static files
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
