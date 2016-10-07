@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-import os, config, random, glob
+import os, config, random
 
 from django.db import models
 from django.conf import settings
@@ -101,22 +101,22 @@ class Player(models.Model):
 
     def assign_adjective_noun_name_and_icon(self):
         # Get list of currently active names (so no overlap)
-        names_in_use = []
-        print "names in use"
-        print names_in_use
+        nouns_in_use = []
         badges = Badge.objects.filter(active_player__isnull=False)
         for badge in badges:
-            names_in_use.append(tuple(filter(None, str(badge.active_player.name).split("-"))))
+            nouns_in_use.append(str(badge.active_player.name).split("-")[1])
 
+        print "nouns in use"
+        print nouns_in_use
         # Generate random pair of adjective-noun, check if is already used, if so try again
         for i in range(0, 10):
             adjective_noun = (random.choice(config.adjectives), random.choice(config.nouns))
-            if adjective_noun in names_in_use:
+            if adjective_noun[1] in nouns_in_use:
                 continue
             self.name = adjective_noun[0] + "-" + adjective_noun[1]
             # TODO instead of random file match with noun
             print "icon_filename:"
-            self.icon_filename = "animal_icons/"+str(random.choice(os.listdir(str(settings.API_STATIC_ROOT) + "/animal_icons/")))
+            self.icon_filename = "animal_icons/"+str(config.match_noun_icon(os.listdir(str(settings.API_STATIC_ROOT) + "/animal_icons/")))
             print self.icon_filename
 
             self.save()

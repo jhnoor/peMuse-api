@@ -8,6 +8,11 @@ def get_level(xp):
     return (math.sqrt(625 + 100 * xp) - 25) / 50
 
 
+def match_noun_icon(icon_list):
+    sorted(icon_list, key=str.lower) # TODO sort list alphabetically
+    return icon_list[0] # TODO TEST
+
+
 # Adjective list
 
 adjectives = ["allergisk", "begeistret", "bekymret", "bitter", "blind", "bred", "engstelig", "enig",
