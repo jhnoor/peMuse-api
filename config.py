@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 import math
 
 DEFAULT_XP = 200
@@ -9,11 +12,10 @@ def get_level(xp):
 
 
 def match_noun_icon(icon_list):
-    sorted(icon_list, key=str.lower) # TODO sort list alphabetically
-    return icon_list[0] # TODO TEST
+    print sorted(icon_list)  # TODO sort list alphabetically
 
+    return icon_list[0]  # TODO TEST
 
-# Adjective list
 
 adjectives = ["allergisk", "begeistret", "bekymret", "bitter", "blind", "bred", "engstelig", "enig",
               "ergerlig", "farlig", "fattig", "ferdig", "fiendtlig", "flink", "forbauset", "forelsket",
@@ -21,16 +23,21 @@ adjectives = ["allergisk", "begeistret", "bekymret", "bitter", "blind", "bred", 
               "imponert", "irritert", "ivrig", "jevngammel", "kjent",
               "klar", "klein", "klok", "kvalm", "lei", "lett", "lettet", "lykkelig", "lysten", "misunnelig",
               "moden", "mulig", "nummen", "nyfiken", "omgitt", "ond",
-              "oppmerksom", "opptatt", "overrasket", "parallell", "rask", "redd", "rik", "rik",
+              "oppmerksom", "opptatt", "overrasket", "parallell", "rask", "redd", "rik",
               "selvforsynt", "sikker", "sinna", "sint", "sjokkert", "sjuk", "skeptisk", "snill", "stinn", "stum",
-              "svak", "syk", "takknemlig", "tilfreds","tom", "troende",
+              "svak", "syk", "takknemlig", "tilfreds", "tom", "troende",
               "trygg", "uenig", "umulig", "urolig", "vanskelig",
               "varsom", "velkommen", "vennlig", "vettskremt", "villig", "viss", "vred", "ydmyk"]
 
-nouns = ["hund", "katt", "fisk", "axolotl", "rotte", "pinnsvin", "chinchilla", "mus",
-         "krabbe", "kanin", "hamster", "gekko", "edderkopp", "skjeggagamer", "skilpadde", "slange",
-         "blekksprut", "manet", "snegle", "orm", "maur", "trelus", "ekorn", "pinneinsekt", "krokodille",
-         "hai", "hval", "and", "tiger", "zebra", "padde", "salamander", "hjort", "panda",
-         "lepard", "gorilla", "sjimpanse", "elefant", "kamel", "hest", "lama", "emu", "struts", "ulv",
-         "neshorn", "flodhest", "pyton",
-         "skorpion", "flaggermus"]
+file_name_postfix = '_128px.png'
+nouns_filenames = {
+    "flaggermus": "bat", "bjørn": "bear", "bie": "bee", "fugl": "bird", "insekt": "bug", "sommerfugl": "butterfly",
+    "kamel": "camel", "katt": "cat", "gepard": "cheetah", "kylling": "chicken", "koala": "coala", "ku": "cow",
+    "krokodille": "crocodile", "dinosaur": "dinosaur", "hund": "dog", "delfin": "dolphin", "due": "dove",
+    "and": "duck", "ørn": "eagle", "elefant": "elephant", "fisk": "fish", "flamingo": "flamingo", "rev": "fox",
+    "frosk": "frog", "giraff": "giraffe", "gorilla": "gorilla", "hest": "horse", "kenguru": "kangoroo",
+    "leopard": "leopard", "løve": "lion", "apekatt": "monkey", "mus": "mouse", "panda": "panda",
+    "papegøye": "parrot", "pingvin": "penguin", "hai": "shark", "sau": "sheep", "slange": "snake",
+    "edderkopp": "spider", "ekorn": "squirrel", "sjøstjerne": "star-fish", "tiger": "tiger", "skilpadde": "turtle",
+    "ulv": "wolf", "zebra": "zebra"
+}

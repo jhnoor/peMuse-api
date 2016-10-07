@@ -49,7 +49,6 @@ class Player(models.Model):
     xp = models.PositiveIntegerField(default=0)
     level = models.PositiveSmallIntegerField(default=1)  # TODO config class defining xp leveling limits
     played_with = models.ManyToManyField("self", blank=True)
-    active = models.BooleanField(default=True)  # Initial new players are active unless otherwise specified
 
     # Analytical stats
     average_time_to_answer_seconds = models.FloatField(default=0, blank=True)
@@ -110,14 +109,17 @@ class Player(models.Model):
         print nouns_in_use
         # Generate random pair of adjective-noun, check if is already used, if so try again
         for i in range(0, 10):
-            adjective_noun = (random.choice(config.adjectives), random.choice(config.nouns))
-            if adjective_noun[1] in nouns_in_use:
+            name = {
+                "adjective": random.choice(config.adjectives),
+                "noun": random.choice(config.nouns_filenames.keys())
+            }
+            if name['noun'] in nouns_in_use:
                 continue
-            self.name = adjective_noun[0] + "-" + adjective_noun[1]
-            # TODO instead of random file match with noun
+            self.name = str(name['adjective'] + "-" + name['noun'])
             print "icon_filename:"
-            self.icon_filename = "animal_icons/"+str(config.match_noun_icon(os.listdir(str(settings.API_STATIC_ROOT) + "/animal_icons/")))
+            self.icon_filename = "animal_icons/"+config.nouns_filenames.get(name['noun'])+config.file_name_postfix
             print self.icon_filename
+            print self.name
 
             self.save()
             return
