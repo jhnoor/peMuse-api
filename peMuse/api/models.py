@@ -178,3 +178,12 @@ class Badge(models.Model):
 
     def __unicode__(self):
         return self.uid
+
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=1024)
+    question_image_left_filename = models.CharField(max_length=32)
+    question_image_right_filename = models.CharField(max_length=32)
+    question_hint = models.CharField(max_length=128)
+    terminal = models.ForeignKey(Terminal)
+
