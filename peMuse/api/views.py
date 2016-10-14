@@ -2,8 +2,8 @@ from rest_framework import viewsets, renderers, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer, PlayerPowerupSerializer, \
-    PlayerTrophySerializer, BadgeSerializer
-from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy, Badge
+    PlayerTrophySerializer, BadgeSerializer, TerminalSerializer, QuestionSerializer
+from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy, Badge, Terminal, Question
 
 
 ## Viewsets ##
@@ -24,6 +24,35 @@ class BadgeViewSet(viewsets.ModelViewSet):
         badge.active_player = new_player
         badge.save()
         return Response({new_player.pk}, status=status.HTTP_200_OK)
+
+
+class TerminalViewSet(viewsets.ModelViewSet):
+    queryset = Terminal.objects.all()
+    serializer_class = TerminalSerializer
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer], methods=['put'])
+    def set_online(self, *args, **kwargs):
+        terminal = self.get_object()
+        if terminal.set_online():
+            terminal.save()
+            return Response(data=terminal.pk, status=status.HTTP_200_OK)
+        else:
+            return Response({"terminal already online"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer], methods=['put'])
+    def set_offline(self, *args, **kwargs):
+        terminal = self.get_object()
+        if terminal.set_offline():
+            terminal.save()
+            return Response(data=terminal.pk, status=status.HTTP_200_OK)
+        else:
+            return Response({"terminal already offline"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
 
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by("created_at")
@@ -58,6 +87,7 @@ class PlayerViewSet(viewsets.ModelViewSet):
         player.earn_trophy(kwargs['trophy_pk'])
         return Response({"earn_trophy success"}, status=status.HTTP_200_OK)
 
+
 class TrophyViewSet(viewsets.ModelViewSet):
     """
         #Trophy list
@@ -91,7 +121,6 @@ class PowerupViewSet(viewsets.ModelViewSet):
     """
     queryset = Powerup.objects.all().order_by("name")
     serializer_class = PowerupSerializer
-    lookup_field = 'name'
 
 
 class PlayerPowerupViewSet(viewsets.ModelViewSet):

@@ -14,6 +14,9 @@ router.register(r'powerups', views.PowerupViewSet)
 router.register(r'player-powerups', views.PlayerPowerupViewSet)
 router.register(r'player-trophies', views.PlayerTrophyViewSet)
 router.register(r'badges', views.BadgeViewSet)
+router.register(r'terminals', views.TerminalViewSet)
+router.register(r'questions', views.QuestionViewSet)
+
 
 player_add_xp = views.PlayerViewSet.as_view({
     'put': 'add_xp'
@@ -35,6 +38,14 @@ badge_new_active_player = views.BadgeViewSet.as_view({
     'post': 'new_active_player' # TODO why doesnt this work on post?
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
+terminal_set_online = views.TerminalViewSet.as_view({
+    'put': 'set_online' # TODO why doesnt this work on post?
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+terminal_set_offline = views.TerminalViewSet.as_view({
+    'put': 'set_offline' # TODO why doesnt this work on post?
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
@@ -49,6 +60,9 @@ urlpatterns = [
 
     # Badges
     url(r'^badges/(?P<badge_pk>\d+)/new_active_player/$', badge_new_active_player, name='badge-new-active-player'),
+    # Terminal
+    url(r'^terminals/(?P<terminal_pk>\d+)/set_online/$', terminal_set_online, name='terminal-set-online'),
+    url(r'^terminals/(?P<terminal_pk>\d+)/set_offline/$', terminal_set_offline, name='terminal-set-offline'),
 
     # Additionally, we include login URLs for the browsable API and admin
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

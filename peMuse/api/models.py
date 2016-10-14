@@ -17,6 +17,7 @@ class Trophy(models.Model):
 
 class Powerup(models.Model):
     name = models.CharField(max_length=32, unique=True)
+    icon_url = models.CharField(max_length=32)
     description = models.CharField(max_length=256)
 
     def __unicode__(self):
@@ -117,7 +118,7 @@ class Player(models.Model):
                 continue
             self.name = str(name['adjective'] + "-" + name['noun'])
             print "icon_filename:"
-            self.icon_filename = "animal_icons/"+config.nouns_filenames.get(name['noun'])+config.file_name_postfix
+            self.icon_filename = "animal_icons/" + config.nouns_filenames.get(name['noun']) + config.file_name_postfix
             print self.icon_filename
             print self.name
 
@@ -138,9 +139,24 @@ post_save.connect(player_saved, sender=Player)
 
 class Terminal(models.Model):
     name = models.CharField(max_length=32, unique=True)
+    online = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
+
+    def set_online(self):
+        if not self.online:
+            self.online = True
+            return True
+        else:
+            return False
+
+    def set_offline(self):
+        if self.online:
+            self.online = False
+            return True
+        else:
+            return False
 
 
 class Session(models.Model):
@@ -178,3 +194,15 @@ class Badge(models.Model):
 
     def __unicode__(self):
         return self.uid
+
+
+class Question(models.Model):
+    text = models.CharField(max_length=512)
+    hint = models.CharField(max_length=128)
+    left_picture_url = models.CharField(max_length=64)
+    right_picture_url = models.CharField(max_length=64)
+    is_left_correct = models.BooleanField()
+    terminal = models.ForeignKey(Terminal)
+
+    def __unicode__(self):
+        return self.text

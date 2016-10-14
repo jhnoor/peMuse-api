@@ -42,6 +42,14 @@
     }
   },
   {
+    "model": "api.trophy",
+    "pk": 4,
+    "fields": {
+      "name": "FakeTrophy",
+      "description": "Fake description muhahaha!"
+    }
+  },
+  {
     "model": "api.powerup",
     "pk": 1,
     "fields": {
@@ -89,26 +97,65 @@
   },
   {
     "model": "api.badge",
-    "pk": 1,
+    "pk": 20,
     "fields": {
-      "uid": "FF",
-      "active_player": null
+      "uid": "5500A775",
+      "active_player": null,
+      "updated_at": "2016-10-06T12:57:53.660Z"
     }
   },
   {
     "model": "api.badge",
-    "pk": 2,
+    "pk": 22,
     "fields": {
-      "uid": "CC",
-      "active_player": null
+      "uid": "1507E452",
+      "active_player": null,
+      "updated_at": "2016-10-06T12:53:36.813Z"
     }
   },
   {
     "model": "api.badge",
-    "pk": 3,
+    "pk": 23,
     "fields": {
-      "uid": "AA",
-      "active_player": null
+      "uid": "45C92177",
+      "active_player": null,
+      "updated_at": "2016-10-06T12:54:04.255Z"
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 24,
+    "fields": {
+      "uid": "C21786EC",
+      "active_player": null,
+      "updated_at": "2016-10-11T14:57:28.839Z"
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 25,
+    "fields": {
+      "uid": "320C5F46",
+      "active_player": null,
+      "updated_at": "2016-10-11T14:48:29.864Z"
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 26,
+    "fields": {
+      "uid": "160C7812",
+      "active_player": null,
+      "updated_at": "2016-10-12T23:36:30.478Z"
+    }
+  },
+  {
+    "model": "api.badge",
+    "pk": 27,
+    "fields": {
+      "uid": "362FFF02",
+      "active_player": null,
+      "updated_at": "2016-10-12T23:36:37.174Z"
     }
   }
 ]
