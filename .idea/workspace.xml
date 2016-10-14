@@ -4,24 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/peMuse/api/models.py" line="179" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1992b613-bdd4-453f-8b5d-3b11e34092f3" name="Default" comment="animal icons">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/peMuse/api/static/question_images/trikk.PNG" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0002_badge_created_at.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0003_remove_badge_created_at.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0004_badge_updated_at.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0005_auto_20161005_1557.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/peMuse/api/migrations/0006_player_name.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/init.json" afterPath="$PROJECT_DIR$/init.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peMuse/api/admin.py" afterPath="$PROJECT_DIR$/peMuse/api/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peMuse/api/models.py" afterPath="$PROJECT_DIR$/peMuse/api/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peMuse/api/serializers.py" afterPath="$PROJECT_DIR$/peMuse/api/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peMuse/api/views.py" afterPath="$PROJECT_DIR$/peMuse/api/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peMuse/urls.py" afterPath="$PROJECT_DIR$/peMuse/urls.py" />
-    </list>
+    <list default="true" id="1992b613-bdd4-453f-8b5d-3b11e34092f3" name="Default" comment="" />
     <ignored path="peMuse-api.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -68,8 +51,8 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/peMuse/api/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
+            <state relative-caret-position="441">
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -692,12 +675,19 @@
       <option name="project" value="LOCAL" />
       <updated>1475754776261</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="powerup icons">
+      <created>1476430889023</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1476430889023</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11673774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -708,7 +698,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32756758" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24" sideWeight="0.4973221" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3264865" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3264865" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -734,7 +724,8 @@
     <MESSAGE value="db" />
     <MESSAGE value="added badge model" />
     <MESSAGE value="animal icons" />
-    <option name="LAST_COMMIT_MESSAGE" value="animal icons" />
+    <MESSAGE value="powerup icons" />
+    <option name="LAST_COMMIT_MESSAGE" value="powerup icons" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1219,8 +1210,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/peMuse/api/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
+        <state relative-caret-position="441">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
