@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from django.contrib import admin
 from peMuse.api.models import Player, Trophy, Powerup, PlayerPowerup, PlayerTrophy
-from peMuse.api.models import Terminal, Session, Badge
+from peMuse.api.models import Terminal, Session, Badge, Question
 
 # Register your models here.
 admin.site.unregister(User)
@@ -18,3 +18,4 @@ admin.site.register(Trophy)
 admin.site.register(Terminal)
 admin.site.register(Session)
 admin.site.register(Badge)
+admin.site.register(Question)
