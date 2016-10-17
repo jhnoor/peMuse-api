@@ -32,7 +32,7 @@ class PlayerPowerupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayerPowerup
-        fields = ('name', 'description', 'quantity', 'icon_url')
+        fields = ('name', 'description', 'quantity', 'icon_url', 'id')
 
 
 class TrophySerializer(serializers.ModelSerializer):
