@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrophy, Badge, Question, Terminal
+from peMuse.api.models import Player, Powerup, PlayerPowerup, Trophy, PlayerTrophy, Badge, Question, Terminal, \
+    PlayerQuestion
 
 
 class BadgeSerializer(serializers.ModelSerializer):
@@ -62,4 +63,9 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ('name', 'icon_filename', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')
+        fields = ('name', 'id', 'icon_filename', 'xp', 'level', 'url', 'trophies', 'powerups', 'played_with')
+
+
+class PlayerQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerQuestion

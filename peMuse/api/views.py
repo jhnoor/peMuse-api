@@ -1,9 +1,12 @@
+import json
+
 from rest_framework import viewsets, renderers, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from serializers import PlayerSerializer, TrophySerializer, PowerupSerializer, PlayerPowerupSerializer, \
-    PlayerTrophySerializer, BadgeSerializer, TerminalSerializer, QuestionSerializer
-from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy, Badge, Terminal, Question
+    PlayerTrophySerializer, BadgeSerializer, TerminalSerializer, QuestionSerializer, PlayerQuestionSerializer
+from peMuse.api.models import Player, PlayerPowerup, Powerup, Trophy, PlayerTrophy, Badge, Terminal, Question, \
+    PlayerQuestion
 
 
 ## Viewsets ##
@@ -54,6 +57,10 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
 
 
+class PlayerQuestionViewSet(viewsets.ModelViewSet):
+    queryset = PlayerQuestion.objects.all()
+    serializer_class = PlayerQuestionSerializer
+
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by("created_at")
     serializer_class = PlayerSerializer
@@ -63,6 +70,18 @@ class PlayerViewSet(viewsets.ModelViewSet):
         player = self.get_object()
         player.add_xp(**kwargs)
         return Response({"add_xp success": "player_" + str(player.pk) + " got xp!"}, status=status.HTTP_200_OK)
+
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer], methods=['put'])
+    def update_player(self, request, **kwargs):
+        print "UPDATING PLAYER"
+        player = self.get_object()
+        print player
+        new_player_data = json.loads(request.data['player'])
+        print new_player_data
+
+        player.update(new_player_data)
+
+        return Response({"update_player success"}, status=status.HTTP_200_OK)
 
     def set_xp(self, *args, **kwargs):
         if 'xp' not in kwargs:

@@ -16,10 +16,15 @@ router.register(r'player-trophies', views.PlayerTrophyViewSet)
 router.register(r'badges', views.BadgeViewSet)
 router.register(r'terminals', views.TerminalViewSet)
 router.register(r'questions', views.QuestionViewSet)
+router.register(r'player-questions', views.PlayerQuestionViewSet)
 
 
 player_add_xp = views.PlayerViewSet.as_view({
     'put': 'add_xp'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+player_update_player = views.PlayerViewSet.as_view({
+    'put': 'update_player'
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 player_set_xp = views.PlayerViewSet.as_view({
@@ -53,6 +58,7 @@ urlpatterns = [
 
     # Players TODO instead of pk, use more accurate player_pk, badge_pk etc
     url(r'^players/(?P<pk>\d+)/add_xp/(?P<xp>\d+)/$', player_add_xp, name='player-add-xp'),
+    url(r'^players/(?P<pk>\d+)/update_player/$', player_update_player, name='player-update-player'),
     url(r'^players/(?P<pk>\d+)/set_xp/(?P<xp>\d+)/$', player_set_xp, name='player-set-xp'),
     url(r'^players/(?P<pk>\d+)/set_powerup_quantity/(?P<powerup_pk>\d+)/(?P<quantity>\d+)/$',
         player_set_powerup_quantity, name='player-set-powerup-quantity'),

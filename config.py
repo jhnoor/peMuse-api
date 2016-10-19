@@ -8,7 +8,7 @@ DEFAULT_XP = 200
 
 # Level with corresponding xp
 def get_level(xp):
-    return (math.sqrt(625 + 100 * xp) - 25) / 50
+    return (math.sqrt(625 + 100 * int(xp)) - 25) / 50
 
 
 def match_noun_icon(icon_list):

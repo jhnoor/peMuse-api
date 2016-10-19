@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-import os, config, random
+import os, config, random, math
 
 from django.db import models
 from django.conf import settings
@@ -52,8 +52,8 @@ class Player(models.Model):
     played_with = models.ManyToManyField("self", blank=True)
 
     # Analytical stats
-    average_time_to_answer_seconds = models.FloatField(default=0, blank=True)
-    total_playtime_seconds = models.PositiveSmallIntegerField(default=0, blank=True)
+    # Deprecated because of PlayerQuestion model, one can calculate average by looking at that
+    # average_time_to_answer_seconds = models.FloatField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -61,13 +61,31 @@ class Player(models.Model):
     def __unicode__(self):
         return "player_" + str(self.pk)
 
-    def update_player_powerups(self):
+    def update(self, player):
+        self.xp = player['xp']
+        self.level = math.floor(config.get_level(self.xp))
+
+        print player['questions_answered']
+        for question_answer in player['questions_answered']:
+            for player_id in question_answer['player_ids']:
+                other_player = Player.objects.get(pk=player_id)
+                if other_player != self:
+                    self.played_with.add(other_player)
+
+            question = Question.objects.get(pk=question_answer['question_id'])
+            PlayerQuestion.objects.get_or_create(player=self, question=question,
+                                                 is_correct=question_answer['is_correct'],
+                                                 elapsed_time=question_answer['elapsed_time'])
+
+        self.save()
+
+    def set_powerups_and_trophies(self):
+        """If a new powerup or trophy is added, a player-powerup link is created for active players"""
         all_powerups = Powerup.objects.all()
         for powerup in all_powerups:
             PlayerPowerup.objects.get_or_create(player=self, powerup=powerup)
             # All new players start with zero powerups
 
-    def update_player_trophies(self):
         all_trophies = Trophy.objects.all()
         for trophy in all_trophies:
             PlayerTrophy.objects.get_or_create(player=self, trophy=trophy)
@@ -127,8 +145,7 @@ class Player(models.Model):
 
 
 def player_saved(sender, created, instance, *args, **kwargs):
-    instance.update_player_powerups()
-    instance.update_player_trophies()
+    instance.set_powerups_and_trophies()
     if created:
         instance.assign_adjective_noun_name_and_icon()
 
@@ -205,4 +222,14 @@ class Question(models.Model):
     terminal = models.ForeignKey(Terminal)
 
     def __unicode__(self):
-        return self.text
+        return "question_" + str(self.id)
+
+
+class PlayerQuestion(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+    elapsed_time = models.FloatField()
+
+    def __unicode__(self):
+        return self.question + ":" + self.player + ", correct: " + self.correct
