@@ -12,6 +12,7 @@ class BadgeSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
+        fields = ('id', 'url', 'text', 'hint', 'left_picture_url', 'right_picture_url', 'is_left_correct', 'terminal')
 
 
 class TerminalSerializer(serializers.ModelSerializer):

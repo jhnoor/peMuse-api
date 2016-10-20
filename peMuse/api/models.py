@@ -134,7 +134,7 @@ class Player(models.Model):
             }
             if name['noun'] in nouns_in_use:
                 continue
-            self.name = str(name['adjective'] + "-" + name['noun'])
+            self.name = str(str(name['adjective']).title() + " " + name['noun'])
             print "icon_filename:"
             self.icon_filename = "animal_icons/" + config.nouns_filenames.get(name['noun']) + config.file_name_postfix
             print self.icon_filename
@@ -231,5 +231,9 @@ class PlayerQuestion(models.Model):
     is_correct = models.BooleanField()
     elapsed_time = models.FloatField()
 
+    class Meta:
+        unique_together = ('question', 'player')
+
     def __unicode__(self):
-        return self.question + ":" + self.player + ", correct: " + self.correct
+        return str(self.question) + ":" + str(self.player) + ", correct: " + str(self.is_correct)
+
