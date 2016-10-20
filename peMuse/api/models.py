@@ -65,6 +65,12 @@ class Player(models.Model):
         self.xp = player['xp']
         self.level = math.floor(config.get_level(self.xp))
 
+        print player['powerups']
+        for powerup in player['powerups']:
+            player_powerup = PlayerPowerup.objects.get(powerup['id'])
+            player_powerup.quantity = powerup['quantity']
+            player_powerup.save()
+
         print player['questions_answered']
         for question_answer in player['questions_answered']:
             for player_id in question_answer['player_ids']:
@@ -122,7 +128,7 @@ class Player(models.Model):
         nouns_in_use = []
         badges = Badge.objects.filter(active_player__isnull=False)
         for badge in badges:
-            nouns_in_use.append(str(badge.active_player.name).split("-")[1])
+            nouns_in_use.append(str(badge.active_player.name).split(" ")[1])
 
         print "nouns in use"
         print nouns_in_use
