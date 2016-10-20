@@ -75,11 +75,9 @@ class PlayerViewSet(viewsets.ModelViewSet):
     def update_player(self, request, **kwargs):
         print "UPDATING PLAYER"
         player = self.get_object()
-        print player
-        new_player_data = json.loads(request.data['player'])
-        print new_player_data
-
-        player.update(new_player_data)
+        print request.data
+        print json.loads(request.data['player'])
+        player.update(json.loads(request.data['player']))
 
         return Response({"update_player success"}, status=status.HTTP_200_OK)
 

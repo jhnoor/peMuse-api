@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-import os, config, random, math
+import os, config, random, math, json
 
 from django.db import models
 from django.conf import settings
@@ -67,9 +67,10 @@ class Player(models.Model):
 
         print player['powerups']
         for powerup in player['powerups']:
-            player_powerup = PlayerPowerup.objects.get(powerup['id'])
+            player_powerup = PlayerPowerup.objects.get(pk=powerup['id'])
             player_powerup.quantity = powerup['quantity']
             player_powerup.save()
+
 
         print player['questions_answered']
         for question_answer in player['questions_answered']:
